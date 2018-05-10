@@ -17,6 +17,9 @@ class parser:
     def _prepare(self):
         self.soup = BeautifulSoup(self.xml, self.xml_parser)
 
+    def int_to_tuple(self, rgbint):
+        return (rgbint // 256 // 256 % 256, rgbint // 256 % 256, rgbint % 256)
+
     def _parse_polygon(self, polygon):
         id = polygon["id"]
 
@@ -58,8 +61,8 @@ class parser:
         fixed = shape["p5"] == "t"
         sleeping = shape["p6"] == "t"
         density = float(shape["p7"])
-        fill_color = int(shape["p8"])
-        outline_color = int(shape["p9"])
+        fill_color = self.int_to_tuple(int(shape["p8"]))
+        outline_color = self.int_to_tuple(int(shape["p9"]))
         opacity = float(shape["p10"])
         collision = int(shape["p11"])
 
@@ -205,7 +208,7 @@ class parser:
 
         # BACKGROUND
         background_type = int(self.soup.info["bg"])
-        background_color = int(self.soup.info["bgc"])
+        background_color = self.int_to_tuple(int(self.soup.info["bgc"]))
 
         background = models.Background(self.soup.info["bg"], self.soup.info["bgc"])
 
