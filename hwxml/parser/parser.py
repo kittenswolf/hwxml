@@ -210,7 +210,7 @@ class parser:
         background_type = int(self.soup.info["bg"])
         background_color = self.int_to_tuple(int(self.soup.info["bgc"]))
 
-        background = models.Background(self.soup.info["bg"], self.soup.info["bgc"])
+        background = models.Background(background_type, background_color)
 
         # SHAPES
         shapes = []
