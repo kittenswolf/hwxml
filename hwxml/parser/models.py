@@ -415,7 +415,14 @@ class Group:
         self.items = items
 
 class Trigger:
-    def __init__(self):
-        assert False
-        # TODO: Add Trigger model
-
+    def __init__(self, coordinates, width, height, rotation, triggered_by, trigger_action, repeat_type, starts_disabled, repeat_interval, delay):
+        self.coordinates = coordinates
+        self.width = width
+        self.height = height
+        self.rotation = rotation
+        self.triggered_by = triggered_by
+        self.trigger_action = trigger_action
+        self.repeat_type = repeat_type
+        self.starts_disabled
+        self.repeat_interval = repeat_interval
+        self.delay = delay
