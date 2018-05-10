@@ -20,10 +20,10 @@ class parser:
     def _parse_polygon(self, polygon):
         id = polygon["id"]
 
-        if "n" in polygon:
+        try:
             number_polygons = int(polygon["n"])
             has_polygons = True
-        else:
+        except KeyError:
             number_polygons = 0
             has_polygons = False
 
