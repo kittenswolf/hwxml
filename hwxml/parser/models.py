@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from collections import Iterable
+
 class XML:
     def __init__(self, text_xml, version, character, background, shapes, joints, special_items, groups):
         self.text_xml = text_xml
@@ -10,6 +12,24 @@ class XML:
         self.joints = joints
         self.special_items = special_items
         self.groups = groups
+
+    def _flatten(self, l):
+        for el in l:
+            if isinstance(el, Iterable) and not isinstance(el, (str, bytes)):
+                yield from self._flatten(el)
+            else:
+                yield el
+
+    def get_all_shapes(self):
+        shapes = []
+        shapes.append(self.shapes)
+
+        for _group in self.groups:
+            for _shape in [item for item in _group.items if type(item) == Shape]:
+                shapes.append(_shape)
+
+        return list(self._flatten(shapes))
+
 
 class Character:
     def __init__(self, coordinates, type, forced, vehicle_hidden):
