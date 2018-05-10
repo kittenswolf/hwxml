@@ -214,27 +214,31 @@ class parser:
 
         # SHAPES
         shapes = []
-        for shape in self.soup.shapes.find_all("sh", recursive=False):
-            parsed_shape = self._parse_shape(shape)
-            shapes.append(parsed_shape)
+        if self.soup.shapes:
+            for shape in self.soup.shapes.find_all("sh", recursive=False):
+                parsed_shape = self._parse_shape(shape)
+                shapes.append(parsed_shape)
 
         # JOINTS
         joints = []
-        for joint in self.soup.joints.find_all("j", recursive=False):
-            parsed_joint = self._parse_joint(joint)
-            joints.append(parsed_joint)
+        if self.soup.joints:
+            for joint in self.soup.joints.find_all("j", recursive=False):
+                parsed_joint = self._parse_joint(joint)
+                joints.append(parsed_joint)
 
         # SPECIAL ITEMS
         special_items = []
-        for item in self.soup.specials.find_all("sp", recursive=False):
-            parsed_item = parse_special.parse_special(item)
-            special_items.append(parsed_item)
+        if self.soup.specials:
+            for item in self.soup.specials.find_all("sp", recursive=False):
+                parsed_item = parse_special.parse_special(item)
+                special_items.append(parsed_item)
 
         # GROUPS
         groups = []
-        for group in self.soup.groups.find_all("g", recursive=False):
-            parsed_group = self._parse_group(group) 
-            groups.append(parsed_group)
+        if self.soup.groups:
+            for group in self.soup.groups.find_all("g", recursive=False):
+                parsed_group = self._parse_group(group) 
+                groups.append(parsed_group)
 
 
         final_xml = models.XML(self.xml, version, character, background, shapes, joints, special_items, groups)
