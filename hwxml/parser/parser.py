@@ -169,7 +169,7 @@ class parser:
         fixed_angle = group["fr"] == "t"
 
         parsed_items = []
-        for item in group.find_all():
+        for item in group.find_all(recursive=False):
             if item.name == "sh":
                 parsed_shape = self._parse_shape(item)
                 parsed_items.append(parsed_shape)
@@ -211,25 +211,25 @@ class parser:
 
         # SHAPES
         shapes = []
-        for shape in self.soup.shapes.find_all("sh"):
+        for shape in self.soup.shapes.find_all("sh", recursive=False):
             parsed_shape = self._parse_shape(shape)
             shapes.append(parsed_shape)
 
         # JOINTS
         joints = []
-        for joint in self.soup.joints.find_all("j"):
+        for joint in self.soup.joints.find_all("j", recursive=False):
             parsed_joint = self._parse_joint(joint)
             joints.append(parsed_joint)
 
         # SPECIAL ITEMS
         special_items = []
-        for item in self.soup.specials.find_all("sp"):
+        for item in self.soup.specials.find_all("sp", recursive=False):
             parsed_item = parse_special.parse_special(item)
             special_items.append(parsed_item)
 
         # GROUPS
         groups = []
-        for group in self.soup.groups.find_all("g"):
+        for group in self.soup.groups.find_all("g", recursive=False):
             parsed_group = self._parse_group(group) 
             groups.append(parsed_group)
 
