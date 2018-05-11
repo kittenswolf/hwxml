@@ -18,7 +18,10 @@ class parser:
         self.soup = BeautifulSoup(self.xml, self.xml_parser)
 
     def int_to_tuple(self, rgbint):
-        return (rgbint // 256 // 256 % 256, rgbint // 256 % 256, rgbint % 256)
+        if rgbint == -1:
+            return None
+        else:
+            return (rgbint // 256 // 256 % 256, rgbint // 256 % 256, rgbint % 256)
 
     def _parse_polygon(self, polygon):
         id = polygon["id"]
