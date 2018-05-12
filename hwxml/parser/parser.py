@@ -39,10 +39,18 @@ class parser:
             index = 0
             while exists == True: # TODO: rewrite to `while key in polygon`
                 try:
-                    point = polygon["v{}".format(index)] # TODO: parse string to something useful
-                    index += 1
+                    point = polygon["v{}".format(index)]
 
-                    point_list.append(point)
+                    try:
+                        x_point, y_point = polygon["v{}".format(index)].split("_")
+                    except ValueError:
+                        x_point, y_point = polygon["v{}".format(index)].split(".")
+
+                    x_point = float(x_point)
+                    y_point = float(y_point)
+                    point_list.append((x_point, y_point))
+
+                    index += 1
                 except KeyError:
                     exists = False
         else:
