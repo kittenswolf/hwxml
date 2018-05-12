@@ -217,8 +217,16 @@ def parse_special(item):
     if _type == 1:
         # Dinner Table
         rotation = float(item["p2"])
-        sleeping = item["p3"] == "t"
-        interactive = item["p4"] == "t"
+
+        try:
+            sleeping = item["p3"] == "t"
+        except KeyError:
+            sleeping = False
+
+        try:
+            interactive = item["p4"] == "t"
+        except KeyError:
+            interactive = True
 
         parsed_special = models.Miscelleneous.DinnerTable(_coordinates, rotation, sleeping, interactive)
 
@@ -226,8 +234,16 @@ def parse_special(item):
         # Chair
         rotation = float(item["p2"])
         reverse = item["p3"] == "t"
-        sleeping = item["p4"] == "t"
-        interactive = item["p5"] == "t"
+
+        try:
+            sleeping = item["p4"] == "t"
+        except KeyError:
+            sleeping = False
+
+        try:
+            interactive = item["p5"] == "t"
+        except KeyError:
+            interactive = True
 
         parsed_special = models.Miscelleneous.Chair(_coordinates, rotation, reverse, sleeping, interactive)
 
@@ -314,7 +330,11 @@ def parse_special(item):
         font_size = int(item["p5"])
         alignment = int(item["p6"])
         text = item.p7.CData
-        opacity = int(item["p8"])
+
+        try:
+            opacity = int(item["p8"])
+        except KeyError:
+            opacity = 100
 
         parsed_special = models.Text(_coordinates, rotation, text_color, font, font_size, alignment, text, opacity)
 

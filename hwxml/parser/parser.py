@@ -170,9 +170,21 @@ class parser:
         origin_coordinates = (float(group["ox"]), float(group["oy"]))
         sleeping = group["s"] == "t"
         foreground = group["f"] == "t"
-        opacity = int(group["o"])
-        fixed = group["im"] == "t"
-        fixed_angle = group["fr"] == "t"
+
+        try:
+            opacity = int(group["o"])
+        except KeyError:
+            opacity = 100
+
+        try:
+            fixed = group["im"] == "t"
+        except KeyError:
+            fixed = False
+
+        try:
+            fixed_angle = group["fr"] == "t"
+        except KeyError:
+            fixed_angle = False
 
         parsed_items = []
         for item in group.find_all(recursive=False):

@@ -30,7 +30,6 @@ class XML:
 
         return list(self._flatten(shapes))
 
-
 class Character:
     def __init__(self, coordinates, type, forced, vehicle_hidden):
         self.coordinates = coordinates
