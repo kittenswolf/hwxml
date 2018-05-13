@@ -41,10 +41,15 @@ class parser:
                 try:
                     point = polygon["v{}".format(index)]
 
-                    try:
-                        x_point, y_point = polygon["v{}".format(index)].split("_")
-                    except ValueError:
-                        x_point, y_point = polygon["v{}".format(index)].split(".")
+                    if (len(point.split("_")) > 2):
+                        # TODO: Bezier curve
+                        raise ValueError("Bezier Curves are not supported yet.")
+                    else:
+                        try:
+                            x_point, y_point = point.split("_")
+                        except ValueError as e:
+                            # Old XML Support
+                            x_point, y_point = point.split(".")
 
                     x_point = float(x_point)
                     y_point = float(y_point)
