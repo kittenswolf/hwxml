@@ -73,11 +73,8 @@ class Shape:
         self.opacity = opacity
         self.collision = collision
 
-        if cutout:
-            self.cutout = cutout
-
-        if polygon:
-            self.polygon = polygon
+        self.cutout = cutout
+        self.polygon = polygon
 
 class Polygon:
     def __init__(self, id, number_polygons, points):
@@ -106,29 +103,14 @@ class Joint:
         self.second_connection = second_connection
         self.collide_connected = collide_connected
 
-        if axis_angle:
-            self.axis_angle = axis_angle
-
-        if upper_angle:
-            self.upper_angle = upper_angle
-
-        if lower_angle:
-            self.lower_angle = lower_angle
-
-        if upper_limit:
-            self.upper_limit = upper_limit
-
-        if lower_limit:
-            self.lower_limit = lower_limit
-
-        if motor_torque:
-            self.motor_torque = motor_torque
-
-        if motor_force:
-            self.motor_force = motor_force
-
-        if motor_speed:
-            self.motor_speed = motor_speed
+        self.axis_angle = axis_angle
+        self.upper_angle = upper_angle
+        self.lower_angle = lower_angle
+        self.upper_limit = upper_limit
+        self.lower_limit = lower_limit
+        self.motor_torque = motor_torque
+        self.motor_force = motor_force
+        self.motor_speed = motor_speed
 
 class BuildingBlock:
     class IBeam:
