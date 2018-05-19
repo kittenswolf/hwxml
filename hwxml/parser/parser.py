@@ -45,19 +45,20 @@ class parser:
                     point = polygon["v{}".format(index)]
 
                     if (len(point.split("_")) > 2):
-                        # TODO: Bezier curve
-                        return models.Polygon(id, 1, [], True) #TODO: ADD BEZIER CURVES
-                        raise ValueError("Bezier Curves are not supported yet.")
+                        # Bezier curve
+                        x_point, y_point, dx0, dy0, dx1, dy1 = [float(e) for e in point.split("_")]
+                        data_tuple = (x_point, y_point, dx0, dy0, dx1, dy1)
                     else:
+                        # Regular polygon
                         try:
                             x_point, y_point = point.split("_")
                         except ValueError as e:
                             # Old XML Support
                             x_point, y_point = point.split(".")
 
-                    x_point = float(x_point)
-                    y_point = float(y_point)
-                    point_list.append((x_point, y_point))
+                        data_tuple = (float(x_point), float(y_point))
+
+                    point_list.append(data_tuple)
 
                     index += 1
                 except KeyError:
