@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pprint
+import copy
 
 from bs4 import BeautifulSoup
 
@@ -13,6 +14,8 @@ class parser:
         self.xml = xml
 
         self.xml_parser = "xml"
+
+        self._polygons = []
 
     def _prepare(self):
         self.soup = BeautifulSoup(self.xml, self.xml_parser)
@@ -28,12 +31,12 @@ class parser:
 
         try:
             number_polygons = int(polygon["n"])
-            has_polygons = True
+            is_original = True
         except KeyError:
             number_polygons = 0
-            has_polygons = False
+            is_original = False
 
-        if has_polygons:
+        if is_original:
             point_list = []
             exists = True
             index = 0
@@ -43,6 +46,7 @@ class parser:
 
                     if (len(point.split("_")) > 2):
                         # TODO: Bezier curve
+                        return models.Polygon(id, 1, [], True) #TODO: ADD BEZIER CURVES
                         raise ValueError("Bezier Curves are not supported yet.")
                     else:
                         try:
@@ -61,7 +65,9 @@ class parser:
         else:
             point_list = []
 
-        parsed_polygon = models.Polygon(id, number_polygons, point_list)
+        parsed_polygon = models.Polygon(id, number_polygons, point_list, is_original)
+
+        self._polygons.append(parsed_polygon)
         return parsed_polygon
 
     def _parse_shape(self, shape):
@@ -247,6 +253,20 @@ class parser:
                 parsed_shape = self._parse_shape(shape)
                 shapes.append(parsed_shape)
 
+        # Patch polygons
+        patched_shapes = []
+        for shape in shapes:
+            if (shape.polygon and not shape.polygon.original):
+                potential_originals = [polygon for polygon in self._polygons if polygon.id == shape.polygon.id]
+                original = [polygon for polygon in potential_originals if polygon.points != []][0]
+
+                shape.polygon.points = original.points
+                patched_shapes.append(shape)
+            else:
+                patched_shapes.append(shape)
+
+        shapes = patched_shapes
+
         # JOINTS
         joints = []
         if self.soup.joints:
@@ -268,6 +288,24 @@ class parser:
                 parsed_group = self._parse_group(group) 
                 groups.append(parsed_group)
 
+        patched_groups = []
+        for group in groups:
+            group_copy = copy.deepcopy(group)
+
+            index = 0
+            for item in group.items:
+                if type(item) == models.Shape:
+                    if (item.polygon and not item.polygon.original):
+                        potential_originals = [polygon for polygon in self._polygons if polygon.id == item.polygon.id]
+                        original = [polygon for polygon in potential_originals if polygon.points != []][0]
+
+                        group_copy.items[index].polygon.points = original.points
+
+                index += 1
+
+            patched_groups.append(group_copy)
+
+        groups = patched_groups
 
         final_xml = models.XML(self.xml, version, character, background, shapes, joints, special_items, groups)
         return final_xml

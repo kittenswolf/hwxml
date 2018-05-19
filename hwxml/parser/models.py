@@ -30,6 +30,17 @@ class XML:
 
         return list(self._flatten(shapes))
 
+    def get_all_of_polygons(self):
+        polygons = []
+        polygons.append([shape.polygon for shape in self.get_all_shapes() if shape.polygon])
+
+        for _group in self.groups:
+            for _shape in [item for item in _group.items if type(item) == Shape]:
+                if _shape.polygon:
+                    polygons.append(_shape.polygon)
+
+        return list(self._flatten(shapes))
+
 class Character:
     def __init__(self, coordinates, type, forced, vehicle_hidden):
         self.coordinates = coordinates
@@ -77,10 +88,11 @@ class Shape:
         self.polygon = polygon
 
 class Polygon:
-    def __init__(self, id, number_polygons, points):
+    def __init__(self, id, number_polygons, points, original):
         self.id = id
         self.number_polygons = number_polygons
         self.points = points
+        self.original = original
 
 class Joint:
     def __init__(self, 
