@@ -329,14 +329,14 @@ def parse_special(item):
         font = int(item["p4"])
         font_size = int(item["p5"])
         alignment = int(item["p6"])
-        text = item.p7.CData
+        text = item.p7.text
 
         try:
             opacity = int(item["p8"])
         except KeyError:
             opacity = 100
 
-        parsed_special = models.Text(_coordinates, rotation, text_color, font, font_size, alignment, text, opacity)
+        parsed_special = models.Text(_coordinates, rotation, text_color, font, font_size, alignment, opacity, text)
 
     if _type in [13, 14]:
         # Building Block Brick & Modern
