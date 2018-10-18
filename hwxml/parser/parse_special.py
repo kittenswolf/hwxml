@@ -1,7 +1,7 @@
 
 from . import models
 
-def int_to_tuple(self, rgbint):
+def int_to_tuple(rgbint):
     if rgbint == -1:
         return None
     else:
@@ -331,7 +331,7 @@ def parse_special(item):
     if _type == 16:
         # Text
         rotation = float(item["p2"])
-        text_color = int_to_tuple("a", int(item["p3"]))
+        text_color = int_to_tuple(int(item["p3"]))
         font = int(item["p4"])
         font_size = int(item["p5"])
         alignment = int(item["p6"])
