@@ -8,7 +8,7 @@ Available via pip:
 # Usage:
     import hwxml
     xml = open("xml.txt", "r").read()
-    parsed = hwxml.xml.xml(xml).parse()
+    parsed = hwxml.parse(xml)
 
     shapes = parsed.shapes
     print(shapes[0].coordinates)
