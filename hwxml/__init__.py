@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from . import xml
+from . import parser
 
+def parse(str_input):
+    return parser.parser(str_input).parse()
