@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 
 from . import models
 from . import parse_special
+from . import parse_trigger
 
 
 class parser:
@@ -282,6 +283,13 @@ class parser:
                 parsed_item = parse_special.parse_special(item)
                 special_items.append(parsed_item)
 
+        # TRIGGERS
+        triggers = []
+        if self.soup.triggers:
+            for trigger in self.soup.triggers.find_all("t", recursive=False):
+                parsed_trigger = parse_trigger.parse_trigger(trigger)
+                triggers.append(parsed_trigger)
+
         # GROUPS
         groups = []
         if self.soup.groups:
@@ -308,6 +316,6 @@ class parser:
 
         groups = patched_groups
 
-        final_xml = models.XML(self.xml, version, character, background, shapes, joints, special_items, groups)
+        final_xml = models.XML(self.xml, version, character, background, shapes, joints, special_items, triggers, groups)
         return final_xml
 

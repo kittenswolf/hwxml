@@ -3,7 +3,7 @@
 from collections import Iterable
 
 class XML:
-    def __init__(self, text_xml, version, character, background, shapes, joints, special_items, groups):
+    def __init__(self, text_xml, version, character, background, shapes, joints, special_items, triggers, groups):
         self.text_xml = text_xml
         self.version = version
         self.character = character
@@ -11,6 +11,7 @@ class XML:
         self.shapes = shapes
         self.joints = joints
         self.special_items = special_items
+        self.triggers = triggers
         self.groups = groups
 
     def _flatten(self, l):
@@ -575,17 +576,41 @@ class Group:
         return "<Group>"
 
 class Trigger:
-    def __init__(self, coordinates, width, height, rotation, triggered_by, trigger_action, repeat_type, starts_disabled, repeat_interval, delay):
+    def __init__(self, coordinates, width, height, rotation, triggered_by, action_type, repeat_type, starts_disabled, repeat_interval, delay, action):
         self.coordinates = coordinates
         self.width = width
         self.height = height
         self.rotation = rotation
         self.triggered_by = triggered_by
-        self.trigger_action = trigger_action
+        self.action_type = action_type
         self.repeat_type = repeat_type
-        self.starts_disabled
+        self.starts_disabled = starts_disabled
         self.repeat_interval = repeat_interval
         self.delay = delay
 
+        self.action = action
+
     def __repr__(self):
         return "<Trigger>"
+
+class TriggerAction:
+    class Victory:
+        def __repr__(self):
+            return "<TriggerAction Victory>"
+
+    class SoundEffect:
+        def __init__(self, sound_id, location, panning, volume):
+            self.sound_id = sound_id
+            self.location = location
+            self.panning = panning
+            self.volume = volume
+
+        def __repr__(self):
+            return "<TriggerAction SoundEffect>"
+
+    class Interaction:
+        def __init__(self, interaction_type):
+            self.type = interaction_type
+
+        def __repr__(self):
+            return "<TriggerAction Interaction>"
