@@ -106,7 +106,11 @@ def parse_special(item):
         # Boost
         rotation = float(item["p2"])
         panels_amount = int(item["p3"])
-        boost_power = int(item["p4"])
+
+        try:
+            boost_power = int(item["p4"])
+        except KeyError:
+            boost_power = 20
 
         parsed_special = models.Movement.Boost(_coordinates, rotation, panels_amount, boost_power)
 

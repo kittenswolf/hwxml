@@ -11,7 +11,11 @@ def parse_trigger(trigger):
     triggered_by = int(trigger["b"])
     trigger_action_id = int(trigger["t"])
     repeat_type = int(trigger["r"])
-    starts_disabled = trigger["sd"] == "t"
+
+    try:
+        starts_disabled = trigger["sd"] == "t"
+    except KeyError:
+        starts_disabled = False
 
     if repeat_type in [3, 4]:
         repeat_interval = float(trigger["i"])
@@ -32,8 +36,8 @@ def parse_trigger(trigger):
     if trigger_action_id == 2:
         # Plays sound
         sound_id = int(trigger["s"])
-        sound_location = int(trigger["l"])
-        sound_panning = int(trigger["p"])
+        sound_location = float(trigger["l"])
+        sound_panning = float(trigger["p"])
         sound_volume = float(trigger["v"])
 
         trigger_action = models.TriggerAction.SoundEffect(sound_id, sound_location, sound_panning, sound_volume)
