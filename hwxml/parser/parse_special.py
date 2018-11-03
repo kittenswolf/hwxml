@@ -54,10 +54,26 @@ def parse_special(item):
         # Harpoon Gun
         rotation = float(item["p2"])
         has_anchor = item["p3"] == "t"
-        fixed_angle = item["p4"] == "t"
-        firing_angle = int(item["p5"])
-        trigger_firing = item["p6"] == "t"
-        starts_deactivated = item["p7"] == "t"
+
+        try:
+            fixed_angle = item["p4"] == "t"
+        except KeyError:
+            fixed_angle = False
+
+        try:
+            firing_angle = int(item["p5"])
+        except KeyError:
+            firing_angle = 0
+
+        try:
+            trigger_firing = item["p6"] == "t"
+        except KeyError:
+            trigger_firing = False
+
+        try:
+            starts_deactivated = item["p7"] == "t"
+        except KeyError:
+            starts_deactivated = False
 
         parsed_special = models.Hazards.HarpoonGun(_coordinates, rotation, has_anchor, fixed_angle, firing_angle, trigger_firing, starts_deactivated)
 

@@ -347,14 +347,19 @@ class NPC:
         self.character_name = {1: "Wheelchair Guy",
                                2: "Segway Guy",
                                3: "Irresponsible Dad",
-                               4: "Effective Shopper",
-                               5: "Moped Couple",
-                               6: "Lawnmower Man",
-                               7: "Explorer Guy",
-                               8: "Santa Claus",
-                               9: "Pogostick Man",
-                               10: "Irresponsible Mom",
-                               11: "Helicopter Man"}[self.type]
+                               4: "Irresponsible Son",
+                               5: "Effective Shopper",
+                               6: "Moped Guy",
+                               7: "Moped Girl",
+                               8: "Lawnmower Guy",
+                               9: "Explorer Guy",
+                               10: "Santa Claus",
+                               11: "Elf",
+                               12: "Pogostick Guy",
+                               13: "Irresponsible Mom",
+                               14: "Irresponsible Daughter",
+                               15: "Irresponsible Baby",
+                               16: "Helicopter Guy"}[self.type]
 
     def __repr__(self):
         return "<NPC {}>".format(self.character_name)

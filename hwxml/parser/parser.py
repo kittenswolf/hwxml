@@ -2,6 +2,7 @@
 
 import pprint
 import copy
+import traceback
 
 from bs4 import BeautifulSoup
 
@@ -244,7 +245,10 @@ class parser:
 
         # BACKGROUND
         background_type = int(self.soup.info["bg"])
-        background_color = self.int_to_tuple(int(self.soup.info["bgc"]))
+        try:
+            background_color = self.int_to_tuple(int(self.soup.info["bgc"]))
+        except KeyError:
+            background_color = (255, 255, 255)
 
         background = models.Background(background_type, background_color)
 
@@ -273,29 +277,45 @@ class parser:
         joints = []
         if self.soup.joints:
             for joint in self.soup.joints.find_all("j", recursive=False):
-                parsed_joint = self._parse_joint(joint)
-                joints.append(parsed_joint)
+                try:
+                    parsed_joint = self._parse_joint(joint)
+                    joints.append(parsed_joint)
+                except Exception:
+                    print("[hwxml]: Error parsing joint:")
+                    traceback.print_exc()
 
         # SPECIAL ITEMS
         special_items = []
         if self.soup.specials:
             for item in self.soup.specials.find_all("sp", recursive=False):
-                parsed_item = parse_special.parse_special(item)
-                special_items.append(parsed_item)
+                try:
+                    parsed_item = parse_special.parse_special(item)
+                    special_items.append(parsed_item)
+                except Exception:
+                    print("[hwxml]: Error parsing special item:")
+                    traceback.print_exc()
 
         # TRIGGERS
         triggers = []
         if self.soup.triggers:
             for trigger in self.soup.triggers.find_all("t", recursive=False):
-                parsed_trigger = parse_trigger.parse_trigger(trigger)
-                triggers.append(parsed_trigger)
+                try:
+                    parsed_trigger = parse_trigger.parse_trigger(trigger)
+                    triggers.append(parsed_trigger)
+                except Exception:
+                    print("[hwxml]: Error parsing trigger:")
+                    traceback.print_exc()
 
         # GROUPS
         groups = []
         if self.soup.groups:
             for group in self.soup.groups.find_all("g", recursive=False):
-                parsed_group = self._parse_group(group) 
-                groups.append(parsed_group)
+                try:
+                    parsed_group = self._parse_group(group) 
+                    groups.append(parsed_group)
+                except Exception:
+                    print("[hwxml]: Error parsing group:")
+                    traceback.print_exc()
 
         patched_groups = []
         for group in groups:
